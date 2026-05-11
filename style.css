@@ -1,0 +1,9 @@
+html, body, div, table, th, td {
+    border: 1px black solid;
+    padding: 0;
+    margin: 0;
+}
+
+.flex {
+    display: flex;
+}
