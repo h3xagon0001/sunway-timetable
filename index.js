@@ -1,3 +1,11 @@
+/*
+NOTE:
+for adding multiple people, each person is an object
+storing all classes they take in any order
+then at runtime, each person's class days is split into each day object
+then element height can be calculated by number of people per day object
+*/
+
 const clockElement = document.getElementById("clockElement");
 const timePeriodElement = document.getElementById("timePeriodElement");
 const monElement = document.getElementById("monElement");
@@ -9,7 +17,7 @@ const friElement = document.getElementById("friElement");
 
 const updateRate = 500;
 const timetableDuration = 600
-const timetableWidth = 1000;
+const timetableWidth = 1500;
 const pixelPerMin = timetableWidth / timetableDuration
 
 
@@ -43,7 +51,7 @@ function initialTimetableFormat() {
     const elements = [timePeriodElement, monElement, tuesElement, wedElement, thursElement, friElement];
 
     for (let i = 0; i < 6; i++) {
-        elements[i].style.width = "500px"
+        elements[i].style.width = numToPixel(timetableWidth);
         if (elements[i] == timePeriodElement) { elements[i].style.height = "50px" }
         else { elements[i].style.height = "100px" };
     };
@@ -51,7 +59,10 @@ function initialTimetableFormat() {
 
 function addPeriodElement(day, periodInfo, startTime, endTime) {
     const periodElement = document.createElement("div");
+
     periodElement.classList.add("period");
+    periodElement.style.width 
+
     for (let i = 0; i < periodInfo.length; i++) {
         const periodElementContent = document.createElement("div");
         periodElementContent.appendChild(document.createTextNode(periodInfo[i]));
@@ -65,11 +76,17 @@ function addTimeIntervals(startTime, endTime) {
     const startMins = stringToMins(startTime);
     const endMins = stringToMins(endTime);
     const timeInterval = 30;
+    const intervalCount = (endMins - startMins) / timeInterval + 1
     
     for (let mins = startMins; mins <= endMins; mins += timeInterval) {
         const timeIntervalElement = document.createElement("div");
+
         timeIntervalElement.classList.add("intervals");
-        
+        timeIntervalElement.style.width = numToPixel(timetableWidth / intervalCount);
+        timeIntervalElement.style.left = numToPixel(
+            timetableWidth / intervalCount * ((mins - startMins) / timeInterval)
+        );
+
         timeIntervalElement.appendChild(document.createTextNode(minsToString(mins)));
         timePeriodElement.appendChild(timeIntervalElement);
     };
@@ -77,13 +94,8 @@ function addTimeIntervals(startTime, endTime) {
 
 
 initialTimetableFormat();
-addTimeIntervals("8:00", "18:00")
-addPeriodElement("monElement", ["WJK", "NS-C2-3", "Physics"]);
-addPeriodElement("monElement", ["WJK", "NS-C2-3", "Physics"]);
-addPeriodElement("monElement", ["WJK", "NS-C2-3", "Physics"]);
-addPeriodElement("tuesElement", ["WJK", "NS-C2-3", "Physics"]);
-addPeriodElement("tuesElement", ["WJK", "NS-C2-3", "Physics"]);
-addPeriodElement("friElement", ["WJK", "NS-C2-3", "Physics"]);
+addTimeIntervals("8:00", "18:00");
+addPeriodElement("monElement", ["WJK", "NS-C2-3", "Physics"], "9:00", "10:00");
 
 (function update() {
     setTimeout(() => {
