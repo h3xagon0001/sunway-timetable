@@ -8,7 +8,9 @@ const friElement = document.getElementById("friElement");
 
 
 const updateRate = 500;
-
+const timetableDuration = 600
+const timetableWidth = 1000;
+const pixelPerMin = timetableWidth / timetableDuration
 
 
 function getTimeString() {
@@ -29,6 +31,14 @@ function numToPixel(num) {
     return num.toString() + "px";
 };
 
+function minsToString(mins) {
+    return (Math.floor(mins / 60)).toString() + ":" + (mins % 60).toString().padStart(2, "0")
+}
+
+function stringToMins(string) {
+    return parseInt(string.split(":")[0]) * 60 + parseInt(string.split(":")[1])
+}
+
 function initialTimetableFormat() {
     const elements = [timePeriodElement, monElement, tuesElement, wedElement, thursElement, friElement];
 
@@ -39,17 +49,41 @@ function initialTimetableFormat() {
     };
 };
 
-function addClassElement(day, subject) {
-    const classElement = document.createDocumentFragment()
-        .appendChild(document.createElement("div"));
-    classElement.textContent = subject
-
-    document.getElementById(day).appendChild(classElement)
+function addPeriodElement(day, periodInfo, startTime, endTime) {
+    const periodElement = document.createElement("div");
+    periodElement.classList.add("period");
+    for (let i = 0; i < periodInfo.length; i++) {
+        const periodElementContent = document.createElement("div");
+        periodElementContent.appendChild(document.createTextNode(periodInfo[i]));
+        periodElement.appendChild(periodElementContent);
+    };
+    
+    document.getElementById(day).appendChild(periodElement);
 }
+
+function addTimeIntervals(startTime, endTime) {
+    const startMins = stringToMins(startTime);
+    const endMins = stringToMins(endTime);
+    const timeInterval = 30;
+    
+    for (let mins = startMins; mins <= endMins; mins += timeInterval) {
+        const timeIntervalElement = document.createElement("div");
+        timeIntervalElement.classList.add("intervals");
+        
+        timeIntervalElement.appendChild(document.createTextNode(minsToString(mins)));
+        timePeriodElement.appendChild(timeIntervalElement);
+    };
+};
 
 
 initialTimetableFormat();
-addClassElement("monElement", "dsad")
+addTimeIntervals("8:00", "18:00")
+addPeriodElement("monElement", ["WJK", "NS-C2-3", "Physics"]);
+addPeriodElement("monElement", ["WJK", "NS-C2-3", "Physics"]);
+addPeriodElement("monElement", ["WJK", "NS-C2-3", "Physics"]);
+addPeriodElement("tuesElement", ["WJK", "NS-C2-3", "Physics"]);
+addPeriodElement("tuesElement", ["WJK", "NS-C2-3", "Physics"]);
+addPeriodElement("friElement", ["WJK", "NS-C2-3", "Physics"]);
 
 (function update() {
     setTimeout(() => {

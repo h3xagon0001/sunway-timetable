@@ -28,17 +28,16 @@ html, body {
     position: relative;
 }
 
-.test {
+.period {
     width: fit-content;
     position: absolute;
+    text-align: center;
     top: 0px;
-    
+    left: 10px;
 }
 
-.test2 {
-    width: fit-content;
+.intervals {
     position: absolute;
-    top: 60px;
-    
+    text-align: center;
+    top: 0px;
 }
-
