@@ -1,4 +1,4 @@
-html, body, div, table, th, td {
+html, body, div, table, tbody, tr, th, td {
     box-sizing: border-box;
     border: 1px black solid;
     padding: 0;
@@ -6,15 +6,39 @@ html, body, div, table, th, td {
 }
 
 html, body {
-    width: fit-content;
-    height: fit-content;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.x-overflow-scroll {
+    overflow-x: scroll;
 }
 
 .timetable {
-    width: 1000px;
+    table-layout: fixed;
+    width: fit-content;
 }
 
-.first-col {
+.timetable-heading {
     width: 5rem;
+    text-align: center;
+}
+
+.timetable-data {
+    position: relative;
+}
+
+.test {
+    width: fit-content;
+    position: absolute;
+    top: 0px;
+    
+}
+
+.test2 {
+    width: fit-content;
+    position: absolute;
+    top: 60px;
+    
 }
 
