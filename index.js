@@ -16,8 +16,9 @@ const friElement = document.getElementById("friElement");
 
 
 const updateRate = 500;
-const timetableDuration = 600
+const timetableDuration = 21 * 30; // number of periods times length of each period
 const timetableWidth = 1500;
+const periodHeight = 50;
 const pixelPerMin = timetableWidth / timetableDuration
 
 
@@ -61,10 +62,15 @@ function addPeriodElement(day, periodInfo, startTime, endTime) {
     const periodElement = document.createElement("div");
 
     periodElement.classList.add("period");
-    periodElement.style.width 
+    periodElement.style.width = numToPixel((stringToMins(endTime) - stringToMins(startTime)) * pixelPerMin);
+    periodElement.style.height = numToPixel(periodHeight);
+    periodElement.style.left = numToPixel((15 + stringToMins(startTime) - stringToMins("8:00")) * pixelPerMin);
+    console.log(periodHeight)
+    periodElement.style.fontSize = numToPixel(periodHeight / 3);
 
     for (let i = 0; i < periodInfo.length; i++) {
         const periodElementContent = document.createElement("div");
+        periodElementContent.classList.add("period-info");
         periodElementContent.appendChild(document.createTextNode(periodInfo[i]));
         periodElement.appendChild(periodElementContent);
     };
@@ -72,9 +78,9 @@ function addPeriodElement(day, periodInfo, startTime, endTime) {
     document.getElementById(day).appendChild(periodElement);
 }
 
-function addTimeIntervals(startTime, endTime) {
-    const startMins = stringToMins(startTime);
-    const endMins = stringToMins(endTime);
+function addTimeIntervals() {
+    const startMins = stringToMins("8:00");
+    const endMins = stringToMins("18:00");
     const timeInterval = 30;
     const intervalCount = (endMins - startMins) / timeInterval + 1
     
@@ -94,8 +100,8 @@ function addTimeIntervals(startTime, endTime) {
 
 
 initialTimetableFormat();
-addTimeIntervals("8:00", "18:00");
-addPeriodElement("monElement", ["WJK", "NS-C2-3", "Physics"], "9:00", "10:00");
+addTimeIntervals();
+addPeriodElement("monElement", ["WJK", "NS-C2-3", "Physics"], "9:00", "11:00");
 
 (function update() {
     setTimeout(() => {
