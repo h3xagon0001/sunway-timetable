@@ -18,7 +18,7 @@ const friElement = document.getElementById("friElement");
 const updateRate = 500;
 const timetableDuration = 21 * 30; // number of periods times length of each period
 const timetableWidth = 1500;
-const periodHeight = 50;
+const periodHeight = 60;
 const pixelPerMin = timetableWidth / timetableDuration
 
 
@@ -66,11 +66,12 @@ function addPeriodElement(day, periodInfo, startTime, endTime) {
     periodElement.style.height = numToPixel(periodHeight);
     periodElement.style.left = numToPixel((15 + stringToMins(startTime) - stringToMins("8:00")) * pixelPerMin);
     console.log(periodHeight)
-    periodElement.style.fontSize = numToPixel(periodHeight / 3);
+    periodElement.style.fontSize = numToPixel(periodHeight / 3 * 0.75);
 
     for (let i = 0; i < periodInfo.length; i++) {
         const periodElementContent = document.createElement("div");
         periodElementContent.classList.add("period-info");
+        periodElementContent.style.height = numToPixel(periodHeight / 3);
         periodElementContent.appendChild(document.createTextNode(periodInfo[i]));
         periodElement.appendChild(periodElementContent);
     };
