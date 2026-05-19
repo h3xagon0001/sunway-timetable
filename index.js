@@ -18,7 +18,7 @@ const dummyElement = document.getElementById("dummyElement")
 
 const updateRate = 500;
 const timetableDuration = 21 * 30; // number of periods times length of each period
-const timetableWidth = 1500;
+const timetableWidth = 1000;
 const periodHeight = 60;
 const pixelPerMin = timetableWidth / timetableDuration
 
@@ -128,6 +128,7 @@ function addTimeIntervals() {
         const timeIntervalElement = document.createElement("div");
 
         timeIntervalElement.classList.add("intervals");
+        timeIntervalElement.id = "timeInterval_" + mins.toString();
         timeIntervalElement.style.width = numToPixel(timetableWidth / intervalCount);
         timeIntervalElement.style.left = numToPixel(
             timetableWidth / intervalCount * ((mins - startMins) / timeInterval)
@@ -191,14 +192,13 @@ function renderClasses() {
 function drawBar() {
     const dayElements = [monElement, tuesElement, wedElement, thursElement, friElement];
     let barHeight = 0;
-    let leftOffset = dummyElement.offsetWidth + 5;
+    let leftOffset = dummyElement.offsetWidth;
 
     for (let i = 0; i < dayElements.length; i++) {
-        barHeight += pixToNum(dayElements[i].style.height) + 1;
-        console.log(pixToNum(dayElements[i].style.height))
+        barHeight += pixToNum(dayElements[i].style.height);
     }
 
-    barElement.style.top = numToPixel(timePeriodElement.offsetHeight + 2);    
+    barElement.style.top = numToPixel(timePeriodElement.offsetHeight);    
     barElement.style.height = numToPixel(barHeight);
     barElement.style.width = "4px";
 
@@ -210,20 +210,32 @@ function drawBar() {
     barElement.style.left = numToPixel(leftOffset + timeIntervalWidth / 2 +
         (stringToMins(getTimeString().slice(0, getTimeString().length - 3)) - stringToMins("8:00")) * pixelPerMin
     );
+
+    if (pixToNum(barElement.style.left) > timetableWidth) { barElement.style.left = numToPixel(leftOffset + timeIntervalWidth / 2) }
+
+}
+
+function highlightDay() {
+    const date = new Date();
+    const dayElements = [monElement, tuesElement, wedElement, thursElement, friElement];
+
+    for (const day in dayElements) {
+        if (parseInt(day) + 1 === date.getDay()) { dayElements[day].style.backgroundColor = "gray" }
+        else { dayElements[day].style.backgroundColor = "white" };
+    }    
 }
 
 prebuildTimetable();
 initialTimetableFormat();
 addTimeIntervals();
 renderClasses();
-
-
+highlightDay();
 
 (function update() {
     setTimeout(() => {
         clockElement.textContent = getTimeString();
+        
         drawBar();
-
         update();
     }, 500);
 })();
