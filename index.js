@@ -13,6 +13,8 @@ const tuesElement = document.getElementById("tuesElement");
 const wedElement = document.getElementById("wedElement");
 const thursElement = document.getElementById("thursElement");
 const friElement = document.getElementById("friElement");
+const barElement = document.getElementById("barElement");
+
 
 
 const updateRate = 500;
@@ -64,6 +66,10 @@ function numToPixel(num) {
     return num.toString() + "px";
 };
 
+function pixToNum(pix) {
+    return pix.slice(0, pix.length - 3);
+};
+
 function minsToString(mins) {
     return (Math.floor(mins / 60)).toString() + ":" + (mins % 60).toString().padStart(2, "0")
 }
@@ -73,27 +79,29 @@ function stringToMins(string) {
 }
 
 function initialTimetableFormat() {
-    const elements = [timePeriodElement, monElement, tuesElement, wedElement, thursElement, friElement];
-    const days = ["mon", "tues", "wed", "thurs", "fri"];
-
-    timePeriodElement.style.width = numToPixel(timetableWidth);
-    timePeriodElement.style.height = numToPixel(periodHeight * 0.5);
+    const dayElements = [monElement, tuesElement, wedElement, thursElement, friElement];
+    const dayPeopleCount = [];
 
     for (const day in timetable) {
-        elements[i].style.width = numToPixel(timetableWidth);
-        if (elements[i] == timePeriodElement) { elements[i] }
-        else { elements[i].style.height = numToPixel(periodHeight * timetable) };
-    };
+        dayPeopleCount.push(timetable[day].length);
+    }
+
+    timePeriodElement.style.width = numToPixel(timetableWidth);
+
+    for (let i = 0; i < dayElements.length; i++) {
+        dayElements[i].style.width = numToPixel(timetableWidth);
+        dayElements[i].style.height = numToPixel(periodHeight * dayPeopleCount[i]);
+    }
 };
 
-function addPeriodElement(day, periodInfo, startTime, endTime) {
+function addPeriodElement(day, periodInfo, startTime, endTime, offset) {
     const periodElement = document.createElement("div");
 
     periodElement.classList.add("period");
     periodElement.style.width = numToPixel((stringToMins(endTime) - stringToMins(startTime)) * pixelPerMin);
     periodElement.style.height = numToPixel(periodHeight);
     periodElement.style.left = numToPixel((15 + stringToMins(startTime) - stringToMins("8:00")) * pixelPerMin);
-    console.log(periodHeight)
+    periodElement.style.top = numToPixel(offset * periodHeight);
     periodElement.style.fontSize = numToPixel(periodHeight / 3 * 0.75);
 
     for (let i = 0; i < periodInfo.length; i++) {
@@ -136,30 +144,69 @@ function prebuildTimetable() {
                 info: currentClass.info,
                 time: [currentClass.time[1], currentClass.time[2]]
             };
-            if (currentClass.time[0] === "mon") {
-                timetable.mon.push(classInfo);
-            }
-            else if (currentClass.time[0] === "tues") {
-                timetable.tues.push(classInfo);
-            }
-            else if (currentClass.time[0] === "wed") {
-                timetable.wed.push(classInfo);
-            }
-            else if (currentClass.time[0] === "thurs") {
-                timetable.thurs.push(classInfo);
-            }
-            else if (currentClass.time[0] === "fri") {
-                timetable.fri.push(classInfo);
-            }
+            timetable[currentClass.time[0]].push(classInfo);
         };
     };
 };
 
-console.log(timetable);
+function getPeopleInDay(day) {
+    let dayPeople = [];
+
+    for (let i = 0; i < day.length; i++) {
+        if (dayPeople.includes(day[i].name)) {}
+        else {dayPeople.push(day[i].name)};
+    };
+
+    return dayPeople
+};
+
+function getElementFromName(elementName) {
+    return elementName + "Element"
+}
+
+function renderClasses() {
+    for (const day in timetable) {
+        const dayPeople = getPeopleInDay(timetable[day]);
+        
+        for (let i = 0; i < timetable[day].length; i++) {
+            let periodInfo = timetable[day][i]["info"];
+            periodInfo.unshift(timetable[day][i]["name"]);            
+
+            addPeriodElement(
+                getElementFromName(day),
+                periodInfo,
+                timetable[day][i]["time"][0],
+                timetable[day][i]["time"][1],
+                dayPeople.indexOf(timetable[day][i]["name"])
+            );
+        };
+    }
+}
+
+function drawBar() {
+    const dayElements = [monElement, tuesElement, wedElement, thursElement, friElement];
+    let barHeight = 0;
+
+    for (let i = 0; i < dayElements.length; i++) {
+        barHeight += (dayElements[i].offsetHeight);
+    }
+
+    barElement.style.top = numToPixel(timePeriodElement.offsetHeight);    
+    barElement.style.height = numToPixel(barHeight);
+    barElement.style.width = "5px";
+
+    const context = barElement.getContext("2d");
+
+    context.fillStyle = "black";
+    context.fillRect(0, 0, barElement.width, barElement.height)
+}
 
 prebuildTimetable();
 initialTimetableFormat();
 addTimeIntervals();
+renderClasses();
+drawBar();
+
 
 
 (function update() {

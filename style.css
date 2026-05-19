@@ -13,8 +13,12 @@ html, body {
     min-height: 100%;
 }
 
-.x-overflow-scroll {
+.overflow-x-scroll {
     overflow-x: scroll;
+}
+
+.position-relative {
+    position: relative;
 }
 
 .timetable {
@@ -41,4 +45,8 @@ html, body {
     position: absolute;
     text-align: center;
     top: 0px;
+}
+
+#barElement {
+    position: absolute;
 }
