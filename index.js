@@ -14,8 +14,7 @@ const wedElement = document.getElementById("wedElement");
 const thursElement = document.getElementById("thursElement");
 const friElement = document.getElementById("friElement");
 const barElement = document.getElementById("barElement");
-
-
+const dummyElement = document.getElementById("dummyElement")
 
 const updateRate = 500;
 const timetableDuration = 21 * 30; // number of periods times length of each period
@@ -48,6 +47,8 @@ let timetable = {
     fri: []
 }
 
+let timeIntervalWidth = 0;
+
 function getTimeString() {
     const date = new Date();
     const hourString = date.getHours().toString();
@@ -67,7 +68,9 @@ function numToPixel(num) {
 };
 
 function pixToNum(pix) {
-    return pix.slice(0, pix.length - 3);
+    const num = parseInt(pix.slice(0, pix.length - 2))
+    if (isNaN(num)) { return 0 }
+    else { return num };
 };
 
 function minsToString(mins) {
@@ -130,6 +133,8 @@ function addTimeIntervals() {
             timetableWidth / intervalCount * ((mins - startMins) / timeInterval)
         );
 
+        timeIntervalWidth = timetableWidth / intervalCount
+
         timeIntervalElement.appendChild(document.createTextNode(minsToString(mins)));
         timePeriodElement.appendChild(timeIntervalElement);
     };
@@ -186,32 +191,38 @@ function renderClasses() {
 function drawBar() {
     const dayElements = [monElement, tuesElement, wedElement, thursElement, friElement];
     let barHeight = 0;
+    let leftOffset = dummyElement.offsetWidth + 5;
 
     for (let i = 0; i < dayElements.length; i++) {
-        barHeight += (dayElements[i].offsetHeight);
+        barHeight += pixToNum(dayElements[i].style.height) + 1;
+        console.log(pixToNum(dayElements[i].style.height))
     }
 
-    barElement.style.top = numToPixel(timePeriodElement.offsetHeight);    
+    barElement.style.top = numToPixel(timePeriodElement.offsetHeight + 2);    
     barElement.style.height = numToPixel(barHeight);
-    barElement.style.width = "5px";
+    barElement.style.width = "4px";
 
     const context = barElement.getContext("2d");
 
     context.fillStyle = "black";
-    context.fillRect(0, 0, barElement.width, barElement.height)
+    context.fillRect(0, 0, barElement.width, barElement.height);
+
+    barElement.style.left = numToPixel(leftOffset + timeIntervalWidth / 2 +
+        (stringToMins(getTimeString().slice(0, getTimeString().length - 3)) - stringToMins("8:00")) * pixelPerMin
+    );
 }
 
 prebuildTimetable();
 initialTimetableFormat();
 addTimeIntervals();
 renderClasses();
-drawBar();
 
 
 
 (function update() {
     setTimeout(() => {
         clockElement.textContent = getTimeString();
+        drawBar();
 
         update();
     }, 500);
