@@ -21,6 +21,30 @@ const timetableWidth = 1500;
 const periodHeight = 60;
 const pixelPerMin = timetableWidth / timetableDuration
 
+const people = [
+    {
+        name: "WJK",
+        classes: [
+            { info: ["NS-C2-1", "Physics"], time: ["mon","9:00", "11:00"] },
+            { info: ["NE-2-5", "Physics"], time: ["tues","11:00", "13:30"] },
+        ]
+    },
+    {
+        name: "Jon",
+        classes: [
+            { info: ["SW-C3-1", "Math"], time: ["mon","8:00", "11:00"] },
+            { info: ["PT-2-5", "Further Science"], time: ["tues","10:00", "12:30"] },
+        ]
+    },
+]
+
+let timetable = {
+    mon: [],
+    tues: [],
+    wed: [],
+    thurs: [],
+    fri: []
+}
 
 function getTimeString() {
     const date = new Date();
@@ -50,11 +74,15 @@ function stringToMins(string) {
 
 function initialTimetableFormat() {
     const elements = [timePeriodElement, monElement, tuesElement, wedElement, thursElement, friElement];
+    const days = ["mon", "tues", "wed", "thurs", "fri"];
 
-    for (let i = 0; i < 6; i++) {
+    timePeriodElement.style.width = numToPixel(timetableWidth);
+    timePeriodElement.style.height = numToPixel(periodHeight * 0.5);
+
+    for (const day in timetable) {
         elements[i].style.width = numToPixel(timetableWidth);
-        if (elements[i] == timePeriodElement) { elements[i].style.height = "50px" }
-        else { elements[i].style.height = "100px" };
+        if (elements[i] == timePeriodElement) { elements[i] }
+        else { elements[i].style.height = numToPixel(periodHeight * timetable) };
     };
 };
 
@@ -71,7 +99,7 @@ function addPeriodElement(day, periodInfo, startTime, endTime) {
     for (let i = 0; i < periodInfo.length; i++) {
         const periodElementContent = document.createElement("div");
         periodElementContent.classList.add("period-info");
-        periodElementContent.style.height = numToPixel(periodHeight / 3);
+        periodElementContent.style.height = numToPixel(periodHeight / periodInfo.length);
         periodElementContent.appendChild(document.createTextNode(periodInfo[i]));
         periodElement.appendChild(periodElementContent);
     };
@@ -99,10 +127,40 @@ function addTimeIntervals() {
     };
 };
 
+function prebuildTimetable() {
+    for (let i = 0; i < people.length; i++) {
+        for (let j = 0; j < people[i].classes.length; j++) {
+            let currentClass = people[i].classes[j];
+            let classInfo = {
+                name: people[i].name,
+                info: currentClass.info,
+                time: [currentClass.time[1], currentClass.time[2]]
+            };
+            if (currentClass.time[0] === "mon") {
+                timetable.mon.push(classInfo);
+            }
+            else if (currentClass.time[0] === "tues") {
+                timetable.tues.push(classInfo);
+            }
+            else if (currentClass.time[0] === "wed") {
+                timetable.wed.push(classInfo);
+            }
+            else if (currentClass.time[0] === "thurs") {
+                timetable.thurs.push(classInfo);
+            }
+            else if (currentClass.time[0] === "fri") {
+                timetable.fri.push(classInfo);
+            }
+        };
+    };
+};
 
+console.log(timetable);
+
+prebuildTimetable();
 initialTimetableFormat();
 addTimeIntervals();
-addPeriodElement("monElement", ["WJK", "NS-C2-3", "Physics"], "9:00", "11:00");
+
 
 (function update() {
     setTimeout(() => {
