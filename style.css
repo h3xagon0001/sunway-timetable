@@ -13,24 +13,50 @@ td {
     padding: 0;
     margin: 0;
     font-family: "Roboto", sans-serif;
+    font-weight: 700;
+}
+
+html {
+    --primary-color: #51ad8e;
+    --primary-variant-color: #25543c;
+    --secondary-color: #ad5170;
+    --secondary-variant-color: #ffb3d0;
+    --background-color: #0f1e1c;
+    --text-color: #0f1e1c;
+    
 }
 
 html,
 body {
-    min-width: 100%;
-    min-height: 100%;
+    width: 100vw;
+    height: 100vh;
 }
 
 body {
-    margin: 0.75rem;
+    padding: 1rem;
+    background-color: var(--background-color);
+    color: white;
+    overflow-x: hidden;
 }
 
 .title {
     font-size: 1rem;
+    padding: 0.25rem 1.25rem;
+    margin-bottom: 0.5rem;
+    width: 110%;
+    border-radius: 1000rem;
+    background-color: var(--primary-color);
+    color: var(--primary-variant-color);
 }
 
 .clock {
     font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 1000rem;
+    width: fit-content;
+    background-color: var(--secondary-color);
+    color: var(--secondary-variant-color);
 }
 
 .overflow-x-scroll {
@@ -41,19 +67,34 @@ body {
     position: relative;
 }
 
+.timetable-container {
+    border-radius: 1rem;
+    background-color: var(--primary-color);
+    color: var(--primary-variant-color);
+    align-items: center;
+    border: 4px solid var(--primary-variant-color);
+}
+
 .timetable {
     table-layout: fixed;
     width: fit-content;
-    border-spacing: 0;
+    border-collapse: collapse;
 }
 
 .timetable-heading {
     width: 5rem;
     text-align: center;
+    border-right: 1.5px solid var(--primary-variant-color);
+}
+
+.timetable-heading-row {
+    height: 2rem;
+    border-bottom: 1.5px solid var(--primary-variant-color);
 }
 
 .timetable-data {
     position: relative;
+    vertical-align: middle;
 }
 
 .period {
@@ -65,10 +106,16 @@ body {
 .intervals {
     position: absolute;
     text-align: center;
-    top: 0px;
+    top: 0;
+    padding-top: 0.75%;
+    border-right: 1.5px solid var(--primary-variant-color);
 }
 
 #barElement {
     position: absolute;
     z-index: 10;
+}
+
+.gray-bg {
+    background-color: gray;
 }

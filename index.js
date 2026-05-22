@@ -18,7 +18,7 @@ const dummyElement = document.getElementById("dummyElement")
 
 const updateRate = 500;
 const timetableDuration = 21 * 30; // number of periods times length of each period
-const timetableWidth = 1000;
+const timetableWidth = 1500;
 const periodHeight = 60;
 const pixelPerMin = timetableWidth / timetableDuration
 
@@ -133,8 +133,13 @@ function addTimeIntervals() {
         timeIntervalElement.style.left = numToPixel(
             timetableWidth / intervalCount * ((mins - startMins) / timeInterval)
         );
+        timeIntervalElement.style.height = "100%";
 
         timeIntervalWidth = timetableWidth / intervalCount
+
+        if (mins === endMins) {
+            timeIntervalElement.style.borderRight = "0";
+        }
 
         timeIntervalElement.appendChild(document.createTextNode(minsToString(mins)));
         timePeriodElement.appendChild(timeIntervalElement);
@@ -220,7 +225,7 @@ function highlightDay() {
     const dayElements = [monElement, tuesElement, wedElement, thursElement, friElement];
 
     for (const day in dayElements) {
-        if (parseInt(day) + 1 === date.getDay()) { dayElements[day].style.backgroundColor = "gray" }
+        if (parseInt(day) + 1 === date.getDay()) { dayElements[day].classList.add("gray-bg")}
         else { dayElements[day].style.backgroundColor = "white" };
     }    
 }
