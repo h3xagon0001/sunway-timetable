@@ -83,8 +83,12 @@ body {
 
 .timetable-heading {
     width: 5rem;
+    position: sticky;
+    left: 0;
+    z-index: 100;
     text-align: center;
     border-right: 1.5px solid var(--primary-variant-color);
+    font-weight: 900;
 }
 
 .timetable-heading-row {
@@ -99,8 +103,12 @@ body {
 
 .period {
     position: absolute;
+    border-radius: 1rem;
+    border: 0.25rem solid var(--background-color);
     text-align: center;
     top: 0px;
+    background-color: var(--secondary-color);
+    color: var(--secondary-variant-color);
 }
 
 .intervals {
@@ -116,6 +124,19 @@ body {
     z-index: 10;
 }
 
-.gray-bg {
-    background-color: gray;
+.highlighted {
+    background-color: var(--primary-variant-color);
+
+}
+
+.highlighted > div {
+    border: 0.25rem solid var(--primary-variant-color);
+}
+
+.timetable-row {
+    border-bottom: 1.5px solid var(--primary-variant-color);
+}
+
+th:has(+ .highlighted) {
+    color: var(--text-color);
 }
