@@ -68,7 +68,7 @@ const people = [
         classes: [
             { info: ["NE-2-10", "Chem"], time: ["mon", "8:30", "10:30"] },
             { info: ["NC-2-25", "Writing"], time: ["mon", "10:30", "12:30"] },
-            { info: ["NC-2-25", "Ethics"], time: ["mon", "15:00", "17:00"] },
+            { info: ["NC-2-29", "Ethics"], time: ["mon", "15:00", "17:00"] },
             { info: ["NW-3-23", "CT"], time: ["tues", "13:00", "15:00"] },
             { info: ["NC-2-25", "Math"], time: ["wed", "13:00", "15:00"] },
             { info: ["NC-2-29", "Writing"], time: ["wed", "15:00", "17:00"] },
