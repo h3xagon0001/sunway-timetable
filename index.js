@@ -30,7 +30,7 @@ const people = [
             { info: ["NS-C2-4", "CS"], time: ["mon", "13:00", "14:00"] },
             { info: ["NS-C2-4", "Physics"], time: ["mon", "14:00", "15:00"] },
             { info: ["NS-C2-1", "Math"], time: ["mon", "15:00", "16:00"] },
-            { info: ["NW-TR1-3B", "Math"], time: ["tues", "10:00", "11:00"] },
+            { info: ["NS-C3-1", "Math"], time: ["tues", "10:00", "11:00"] },
             { info: ["NS-C2-1", "Physics"], time: ["tues", "11:00", "12:00"] },
             { info: ["NS-C2-4", "Math"], time: ["tues", "12:00", "13:00"] },
             { info: ["NE-5-9", "CS"], time: ["tues", "15:00", "16:00"] },
