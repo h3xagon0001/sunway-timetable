@@ -110,6 +110,32 @@ const people = [
             { info: ["NS-C2-2", "FM"], time: ["fri", "9:05", "10:05"] },
             { info: ["NS-C2-2", "Math"], time: ["fri", "12:05", "13:05"] },
         ]
+    },
+        {
+        name: "Jon",
+        classes: [
+            { info: ["NE-TR2-15", "Eng"], time: ["mon", "8:00", "9:15"] },
+            { info: ["NE-2-9", "Chem"], time: ["mon", "9:15", "10:30"] },
+            { info: ["Physics Lab 1", "Physics"], time: ["mon", "13:00", "14:15"] },
+            { info: ["NW-4-19", "Math"], time: ["mon", "14:15", "15:30"] },
+
+            { info: ["Chem Lab 5", "Chem"], time: ["tues", "9:15", "10:30"] },
+            { info: ["NE-4-12", "Physics"], time: ["tues", "13:00", "14:15"] },
+
+            { info: ["NE-4-9", "Eng"], time: ["wed", "8:00", "9:15"] },
+            { info: ["SE-4-12", "Chem"], time: ["wed", "9:15", "10:30"] },
+            { info: ["NE-TR2-16", "Physics"], time: ["wed", "13:00", "14:15"] },
+            { info: ["NW-4-20", "Math"], time: ["wed", "14:15", "15:30"] },
+
+            { info: ["NE-4-10", "Eng"], time: ["thurs", "8:00", "9:15"] },
+            { info: ["NE-TR2-17", "Chem"], time: ["thurs", "9:15", "10:30"] },
+            { info: ["NE-4-11", "Physics"], time: ["thurs", "13:00", "14:15"] },
+            { info: ["NW-4-19", "Math"], time: ["thurs", "14:15", "15:30"] },
+
+            { info: ["NE-2-13", "Eng"], time: ["fri", "8:00", "9:15"] },
+            { info: ["NW-4-20", "Math"], time: ["fri", "14:15", "15:30"] },
+
+        ]
     }
 ]
 
